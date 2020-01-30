@@ -21,15 +21,13 @@ Script letters such as $$\mathcal{X}, \mathcal{Y}$$ denote domains. Uppercase le
 
 ## Domain Mapping
 
-<!-- We should start by explaining our problem, namely domain mapping. -->
-
 The goal of domain mapping is that given two domains $$\mathcal{X}$$ and $$\mathcal{Y}$$ to define a mapping function $$G_{XY}$$ between the domains. Using this mapping function, we expect to transform samples from domain $$\mathcal{X}$$ to domain $$\mathcal{Y}$$.
 
 In our context, we will focus on images, so we are only concerned with mappings between image domains. This problem is also called _image to image translation_ in the literature.
 
 As an example, consider aerial images and maps. We know that for each aerial image there is a corresponding map or that such a map can be drawn. So, with a mapping function between the domains of aerial images and maps, we want to get maps for given aerial images.
 
-![aerial image - map example](/images/gcgan/aerial_image_map_example.png)
+![aerial image - map example](/images/gcgan/aerial_image_map_example.png){:width="600"}
 *For a given aerial image we want to generate the corresponding map*
 
 ### Unsupervised Domain Mapping
@@ -64,7 +62,7 @@ Generating very realistic outputs is one of the main reasons of popularity of GA
 
 This main idea, namely _adversarial constraint_, can be summarized in a loss function as follows:
 
-![](\images\gcgan\l_gan.png)
+![](\images\gcgan\l_gan.png){:width="600"}
 *Adversarial constraint*
 
 Above, $$G_{XY}$$ denotes the generator and $$D_{Y}$$ denotes the discriminator.
@@ -77,16 +75,15 @@ One popular assumption for unsupervised domain mapping is _cycle consistency_. T
 
 We can write the related loss function for cycle consistency assumption as follows:
 
-![](\images\gcgan\l_cyc.png)
+![](\images\gcgan\l_cyc.png){:width="600"}
 *Cycle consistency constraint*
 
 Cycle consistency assumption is very popular and after its initial proposal by CycleGAN ([Zhu et al. 2017](https://arxiv.org/abs/1703.10593)), DiscoGAN ([Kim et al. 2017](https://arxiv.org/abs/1703.05192)), DualGAN ([Yi et al. 2017](https://arxiv.org/abs/1704.02510)), there have been many proposals to improve it.
 
 Here, one important property of CycleGAN and similar methods is that these are _two sided_ methods, i.e. mapping functions $$G_{XY}$$ and $$G_{YX}$$ need to be learned jointly.
 
-![](\images\gcgan\cycle_gan.png)
+![](\images\gcgan\cycle_gan.png){:width="600"}
 *Summary of CycleGAN*
-<!-- <img src="\images\gcgan\cycle_gan.png" width="600" /> -->
 
 ## DistanceGAN
 
@@ -103,7 +100,7 @@ Here, distances are measured between samples $$x_i$$ and $$x_j$$ and also betwee
 
 Contrary to cycle consistency assumption, distance assumption is _one sided_, i.e. $$G_{XY}$$ can be learned without learning $$G_{YX}$$.
 
-![](\images\gcgan\dist_gan.png)
+![](\images\gcgan\dist_gan.png){:width="400"}
 *Summary of DistanceGAN*
 
 # Proposed Method
@@ -137,7 +134,7 @@ Here, one possible interpretation is that we should be able to _reconstruct_ the
 
 In combination with geometry consistency constraint, the proposed method, namely geometry consistent GAN, or _GcGAN_ in short, also employs adversarial constraint explained above. So, the resulting objective function becomes:
 
-![](\images\gcgan\l_gcgan.png)
+![](\images\gcgan\l_gcgan.png){:width="600"}
 *Loss function of GcGAN*
 
 Here, $$\lambda$$ is used as a hyperparameter which might require fine tuning for specific tasks.
@@ -154,7 +151,7 @@ As it can be seen in the framed sections on the output of baseline model, there 
 
 Similar to DistanceGAN, GcGAN is also _one sided_ as we only train one translator.
 
-![](\images\gcgan\gc_gan.png)
+![](\images\gcgan\gc_gan.png){:width="500"}
 *Summary of GcGAN*
 
 ## Network Architecture
@@ -167,7 +164,7 @@ This paper does not propose anything regarding the network architecture and the 
 
 The main experiment setup is based on [Cityscapes](https://www.cityscapes-dataset.com/) dataset. It provides images and corresponding semantic segmentations. For segmentation, there are 19 category labels and one ignored label.
 
-![](\images\gcgan\cityscapes_example.png)
+![](\images\gcgan\cityscapes_example.png){:width="600"}
 *An example image and corresponding semantic segmentation from Cityscapes dataset*
 
 In the dataset, there are 3975 image – segmentation pairs where 2975 pairs are used for training and 500 pairs (originally for validation) are used for testing. Testing pairs from the dataset are not used. Also pairing information is not used during training.
@@ -227,7 +224,7 @@ The most important results from this part is that geometry consistency constrain
 
 ## House Numbers to Handwritten Digits
 
-![](\images\gcgan\digits_qualitative.png)
+![](\images\gcgan\digits_qualitative.png){:width="500"}
 *Qualitative results for handwritten digits experiment*
 
 The task for this experiment is to generate handwritten digits from street view house numbers.
@@ -238,7 +235,7 @@ The experiment setup follows from DistanceGAN paper.
 
 After generating output images, a pretrained model is used for classification of images.
 
-![](\images\gcgan\digits_quantitative.png)
+![](\images\gcgan\digits_quantitative.png){:width="500"}
 *Quantitative results for handwritten digits experiment*
 
 Here, GcGAN outperforms both CycleGAN and DistanceGAN. Although both GcGAN variants perform similarly, vertical flipping works better for this task.
@@ -258,7 +255,7 @@ There are quantitative results for only map generation from photos task.
 
 As metrics, root mean square error (RMSE) and pixel accuracy are used. Since there are few number of colors in a map, for pixel accuracy, predicted and ground truth colors are compared by checking the maximum difference between RGB values, i.e. $$max(\vert r_i - r_i'\vert , \vert g_i - g_i'\vert , \vert b_i - b_i'\vert ) < \delta$$.
 
-![](\images\gcgan\maps_quantitative.png)
+![](\images\gcgan\maps_quantitative.png){:width="500"}
 *Quantitative results for generating maps from aerial images*
 
 In this experiment, GcGAN achieves competitive results compared to CycleGAN yet CycleGAN is slightly better. For this task, using two geometric transformation functions for GcGAN, GcGAN-Mix-comb, gives the best results. This again indicates that, one may need to choose appropriate transformation or transformations and other configurations according to the specific task.
