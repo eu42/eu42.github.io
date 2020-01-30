@@ -11,6 +11,8 @@ After defining the problem we want to solve and explaining the related concepts,
 
 All images that are used in this post are taken from the reviewed paper or from its poster.
 
+A presentation for this paper can be found [here](/files/gcgan/presentation.pdf)
+
 # Introduction
 
 ## Notation
